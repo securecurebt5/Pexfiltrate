@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Author: Boumediene KADDOUR - OSCP, OSWP
 # Created for learning purposes and Pentest Magazine article contribution
+# Transfering shellcode via ARP as destination MAC addresses
 
 from threading import Thread
 from socket import socket,PF_PACKET,SOCK_RAW,htons,inet_ntoa
