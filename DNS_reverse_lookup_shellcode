@@ -1,0 +1,27 @@
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL    3600
+@       IN      SOA     Beast. root.pentestingskills.lan. (
+                         2017042912     ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      Beast.pentestingskills.lan.
+102     IN      PTR     Beast.
+103     IN      PTR     core.
+201     IN      PTR     mx.
+140     IN      PTR     0x31dbf7e35343.lan.
+141     IN      PTR     0x536a0289e1b0.lan.
+142     IN      PTR     0x66cd809359b0.lan.
+143     IN      PTR     0x3fcd804979f9.lan.
+144     IN      PTR     0x68c0a801de68.lan.
+145     IN      PTR     0x020011c189e1.lan.
+146     IN      PTR     0xb066505153b3.lan.
+147     IN      PTR     0x0389e1cd8052.lan.
+148     IN      PTR     0x686e2f736868.lan.
+149     IN      PTR     0x2f2f626989e3.lan.
+150     IN      PTR     0x525389e1b00b.lan.
+151     IN      PTR     0xcd80.lan.
