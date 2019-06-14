@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Author: Boumediene KADDOUR - OSCP, OSWP
+# Author: Boumediene KADDOUR - OSCE, OSCP, OSWP
 # Created for learning purposes and Pentest Magazine article contribution
 # Transfering shellcode via ARP as destination MAC addresses
 
